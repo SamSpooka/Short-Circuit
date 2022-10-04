@@ -14,7 +14,7 @@ public class Wire : MonoBehaviour
     [SerializeField] private float WIRE_SEGMENT_LENGTH_THRESHOLD = 3f;
     [SerializeField] private float WIRE_SEGMENT_BREAK_THRESHOLD = 1f;
     [SerializeField] private float WIRE_SEGMENT_BACKTRACK_THRESHOLD = 0.5f;
-    private float GRID_SIZE = 0.1f;
+    [SerializeField] [Range(0, 1)] private float GRID_SIZE = 0.1f;
     // Start is called before the first frame update
     void Awake()
     {
@@ -75,14 +75,14 @@ public class Wire : MonoBehaviour
     //if the user is moving backwards (trying to remove the wire)
     public void SetEndPoint(Vector2 endPoint)
     {
-        prevPoint = lineRenderer.GetPosition(lineRenderer.positionCount - 1);
+        prevPoint = TranslateToGrid(lineRenderer.GetPosition(lineRenderer.positionCount - 1));
         if (prevPoint == null)
         {
             prevPoint = endPoint; //Initialize prevPoint
             Debug.Log("ERROR: Start Point is null");
         }
 
-        Vector2 lastSetPoint = lineRenderer.GetPosition(lineRenderer.positionCount - 2); //Get the last drawn position
+        Vector2 lastSetPoint = TranslateToGrid(lineRenderer.GetPosition(lineRenderer.positionCount - 2)); //Get the last drawn position
         if (lastSetPoint == null)
             Debug.Log("LAST SET POINT NULL");
 
@@ -144,7 +144,7 @@ public class Wire : MonoBehaviour
         for (int i = 0; i < lineRenderer.positionCount; i++) //Add all existing positions to the array
             newPositions[i] = lineRenderer.GetPosition(i);
 
-        newPositions[lineRenderer.positionCount - 1] = newPos; //Add the new position at the end of the array (with 1 buffer space for the point to be moved)
+        newPositions[lineRenderer.positionCount - 1] = TranslateToGrid(newPos); //Add the new position at the end of the array (with 1 buffer space for the point to be moved)
         lineRenderer.positionCount++;
         lineRenderer.SetPositions(newPositions); //Update the line renderer
     }
@@ -157,6 +157,16 @@ public class Wire : MonoBehaviour
 
         lineRenderer.positionCount--;
         lineRenderer.SetPositions(newPositions);
+    }
+
+    private Vector2 TranslateToGrid(Vector2 v)
+    {
+        return new Vector2(Mathf.Round(v.x / GRID_SIZE) * GRID_SIZE, Mathf.Round(v.y / GRID_SIZE) * GRID_SIZE);
+    }
+
+    private Vector2 TranslateToGrid(float x, float y)
+    {
+        return new Vector2(Mathf.Round(x / GRID_SIZE) * GRID_SIZE, Mathf.Round(y / GRID_SIZE) * GRID_SIZE);
     }
 
     private void OnDrawGizmos()
