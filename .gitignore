@@ -9,6 +9,19 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.graph
+*.dag
+*.traceevents
+*.bhc
+*.json
+*/Bee/*
+*/BurstCache*
+*/GridBrush*
+*/PackageCache*
+*/ScriptAssemblies*
+*/Search*
+*/ShaderCache*
+*/ProjectSettings*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
