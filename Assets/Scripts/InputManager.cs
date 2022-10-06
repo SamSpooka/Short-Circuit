@@ -26,6 +26,15 @@ public class InputManager : MonoBehaviour
                         drawingWire = true;
                     }
                 }
+                else if (newNode != firstSelectedNode)
+                {
+                    if (newNode.AddNewConnection(selectedWire))
+                    {
+                        selectedWire.SetEndNode(newNode);
+                        drawingWire = false;
+                        selectedWire = null;
+                    }
+                }
             }
         }
     }
@@ -36,7 +45,7 @@ public class InputManager : MonoBehaviour
         {
             selectedWire.SetEndPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //Debug.Log("Mouse Pos: " + mousePos.x + ", " + mousePos.y);
     }
 
