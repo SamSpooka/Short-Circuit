@@ -20,19 +20,23 @@ public class InputManager : MonoBehaviour
                     Wire newWire = GameObject.Instantiate(wirePrefab).GetComponent<Wire>();
                     if (newNode.AddNewConnection(newWire)) //If the wire is able to be added to the node
                     {
+                        Debug.Log("Success");
                         firstSelectedNode = newNode;
                         newWire.SetStartNode(firstSelectedNode);
                         selectedWire = newWire;
                         drawingWire = true;
                     }
+                    else
+                        Destroy(newWire.gameObject);
                 }
                 else if (newNode != firstSelectedNode)
                 {
-                    if (newNode.AddNewConnection(selectedWire))
+                    if (newNode.AddNewConnection(selectedWire)) //Try connecting other end of wire to node
                     {
                         selectedWire.SetEndNode(newNode);
                         drawingWire = false;
                         selectedWire = null;
+                        firstSelectedNode = null;
                     }
                 }
             }

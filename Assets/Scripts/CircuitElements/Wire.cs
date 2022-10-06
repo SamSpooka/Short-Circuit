@@ -58,15 +58,15 @@ public class Wire : MonoBehaviour
     public bool SetStartNode(Node newNode)
     {
         nodeA = newNode;
-        lineRenderer.SetPosition(0, nodeA.transform.position);
-        lineRenderer.SetPosition(1, nodeA.transform.position);
+        lineRenderer.SetPosition(0, TranslateToGrid(newNode.transform.position));
+        lineRenderer.SetPosition(1, TranslateToGrid(newNode.transform.position));
         return true;
     }
 
     public bool SetEndNode(Node newNode)
     {
         nodeB = newNode;
-        lineRenderer.SetPosition(lineRenderer.positionCount - 1, newNode.transform.position);
+        lineRenderer.SetPosition(lineRenderer.positionCount - 1, TranslateToGrid(newNode.transform.position));
         return true;
     }
 
